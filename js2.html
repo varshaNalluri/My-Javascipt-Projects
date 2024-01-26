@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>JS Clock</title>
+        <style>
+            html {
+                background: #018DED;
+                background-size: cover;
+                font-family: 'helvetica neue';
+                text-align: center;
+                font-size: 10px;
+            }
+            body {
+                margin: 0;
+                font-size: 2rem;
+                display: flex;
+                flex: 1;
+                min-height: 100vh;
+                align-items: center;
+                justify-content: center;
+            }
+            .clock {
+                width: 30rem;
+                height: 30rem;
+                border: 20px solid white;
+                border-radius: 50%;
+                margin: 50px auto;
+                position: relative;
+                padding: 2rem;
+                box-shadow:
+                  0 0 0 4px rgba(0,0,0,0.1),
+                  inset 0 0 0 3px #EFEFEF,
+                  inset 0 0 10px black,
+                  0 0 10px rgba(0,0,0,0.2);
+            }
+            .clock-face {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transform: translateY(-3px); /* account for the height of the clock hands */
+            }
+            .hand {
+                width: 50%;
+                height: 6px;
+                background: black;
+                position: absolute;
+                top: 50%;
+                transform-origin: 100%;
+                transform: rotate(90deg);
+                transition: all .05s;
+                transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+            }
+            .time{
+                font-size: 2rem;
+                margin-top: 20px;
+                color: white;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
+            .clock-container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 50px;
+                
+            }
+        </style>
+    </head>
+    <body>
+        <div class="clock-container">
+            <div class="clock">
+                <div class="clock-face">
+                  <div class="hand hour-hand"></div>
+                  <div class="hand min-hand"></div>
+                  <div class="hand second-hand"></div>
+                </div>
+            </div>
+    
+            <div class="time" id="time"></div>
+        </div>
+        
+
+        <script>
+            const secondhand = document.querySelector('.second-hand');
+            const minutehand = document.querySelector('.min-hand');
+            const hourhand = document.querySelector('.hour-hand');
+            const timeDisplay = document.getElementById('time');
+
+            function setDate() {
+                const now = new Date();
+
+                const seconds = now.getSeconds();
+                const secondsDegrees = ((seconds/60) * 360) + 90;
+                secondhand.style.transform = `rotate(${secondsDegrees}deg)`;
+                console.log(seconds)
+
+                const minutes = now.getMinutes();
+                const minutesDegrees = ((minutes/60) * 360) + 90;
+                minutehand.style.transform = `rotate(${minutesDegrees}deg)`;
+
+                const hour = now.getHours();
+                const hourDegrees = ((hour/12) * 360) + 90;
+                hourhand.style.transform = `rotate(${hourDegrees}deg)`;
+
+                const time = `${hour < 10 ? '0' : ''}${hour}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                timeDisplay.textContent = time;
+            }
+
+            setInterval(setDate, 1000);
+
+            setDate();
+        </script>
+    </body>
+</html>
